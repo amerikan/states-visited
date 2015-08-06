@@ -1,5 +1,8 @@
 <html>
   <head>
+    <title>My US State Checklist</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
 
@@ -7,71 +10,77 @@
       google.setOnLoadCallback(drawRegionsMap);
 
       function drawRegionsMap() {
-
+        //0: never visited
+        //1: visited
+        //2: layover
         var states = [
-          ['State', 'Value'],
-          [{v: 'US-AK', f: 'Alaska'}, 0],
-          [{v: 'US-AL', f: 'Alabama'}, 0],
-          [{v: 'US-AZ', f: 'Arizona'}, 1],
-          [{v: 'US-AR', f: 'Arkansas'}, 1],
-          [{v: 'US-CA', f: 'California'}, 1],
-          [{v: 'US-CO', f: 'Colorado'}, 0],
-          [{v: 'US-CT', f: 'Connecticut'}, 1],
-          [{v: 'US-DE', f: 'Delaware'}, 1],
-          [{v: 'US-FL', f: 'Florida'}, 1],
-          [{v: 'US-GA', f: 'Georgia'}, 0],
-          [{v: 'US-HI', f: 'Hawaii'}, 1],
-          [{v: 'US-ID', f: 'Idaho'}, 0],
-          [{v: 'US-IL', f: 'Illinois'}, 1],
-          [{v: 'US-IN', f: 'Indiana'}, 0],
-          [{v: 'US-IA', f: 'Iowa'}, 0],
-          [{v: 'US-KS', f: 'Kansas'}, 1],
-          [{v: 'US-KY', f: 'Kentucky'}, 0],
-          [{v: 'US-LA', f: 'Louisiana'}, 1],
-          [{v: 'US-ME', f: 'Maine'}, 0],
-          [{v: 'US-MD', f: 'Maryland'}, 1],
-          [{v: 'US-MA', f: 'Massachusetts'}, 1],
-          [{v: 'US-MI', f: 'Michigan'}, 1],
-          [{v: 'US-MN', f: 'Minnesota'}, 0],
-          [{v: 'US-MS', f: 'Mississippi'}, 1],
-          [{v: 'US-MO', f: 'Missouri'}, 1],
-          [{v: 'US-MT', f: 'Montana'}, 0],
-          [{v: 'US-NE', f: 'Nebraska'}, 0],
-          [{v: 'US-NV', f: 'Nevada'}, 1],
-          [{v: 'US-NH', f: 'New Hampshire'}, 1],
-          [{v: 'US-NJ', f: 'New Jersey'}, 1],
-          [{v: 'US-NM', f: 'New Mexico'}, 0],
-          [{v: 'US-NY', f: 'New York'}, 1],
-          [{v: 'US-NC', f: 'North Carolina'}, 0],
-          [{v: 'US-ND', f: 'North Dakota'}, 0],
-          [{v: 'US-OH', f: 'Ohio'}, 0],
-          [{v: 'US-OK', f: 'Oklahoma'}, 0],
-          [{v: 'US-OR', f: 'Oregon'}, 1],
-          [{v: 'US-PA', f: 'Pennsylvania'}, 1],
-          [{v: 'US-RI', f: 'Rhode Island'}, 1],
-          [{v: 'US-SC', f: 'South Carolina'}, 0],
-          [{v: 'US-SD', f: 'South Dakota'}, 0],
-          [{v: 'US-TN', f: 'Tennessee'}, 1],
-          [{v: 'US-TX', f: 'Texas'}, 0],
-          [{v: 'US-UT', f: 'Utah'}, 1],
-          [{v: 'US-VT', f: 'Vermont'}, 1],
-          [{v: 'US-VA', f: 'Virginia'}, 1],
-          [{v: 'US-WA', f: 'Washington'}, 1],
-          [{v: 'US-WV', f: 'West Virginia'}, 0],
-          [{v: 'US-WI', f: 'Wisconsin'}, 0],
-          [{v: 'US-WY', f: 'Wyoming'}, 0]
+          [{v: 'US-AK', f: 'Alaska'}, 0, ''],
+          [{v: 'US-AL', f: 'Alabama'}, 0, ''],
+          [{v: 'US-AZ', f: 'Arizona'}, 1, ''],
+          [{v: 'US-AR', f: 'Arkansas'}, 1, ''],
+          [{v: 'US-CA', f: 'California'}, 1, ''],
+          [{v: 'US-CO', f: 'Colorado'}, 2, ''],
+          [{v: 'US-CT', f: 'Connecticut'}, 1, ''],
+          [{v: 'US-DE', f: 'Delaware'}, 1, ''],
+          [{v: 'US-FL', f: 'Florida'}, 1, ''],
+          [{v: 'US-GA', f: 'Georgia'}, 2, ''],
+          [{v: 'US-HI', f: 'Hawaii'}, 1, ''],
+          [{v: 'US-ID', f: 'Idaho'}, 0, ''],
+          [{v: 'US-IL', f: 'Illinois'}, 1, ''],
+          [{v: 'US-IN', f: 'Indiana'}, 0, ''],
+          [{v: 'US-IA', f: 'Iowa'}, 2, ''],
+          [{v: 'US-KS', f: 'Kansas'}, 1, ''],
+          [{v: 'US-KY', f: 'Kentucky'}, 0, ''],
+          [{v: 'US-LA', f: 'Louisiana'}, 1, ''],
+          [{v: 'US-ME', f: 'Maine'}, 0, ''],
+          [{v: 'US-MD', f: 'Maryland'}, 1, ''],
+          [{v: 'US-MA', f: 'Massachusetts'}, 1, ''],
+          [{v: 'US-MI', f: 'Michigan'}, 1, ''],
+          [{v: 'US-MN', f: 'Minnesota'}, 0, ''],
+          [{v: 'US-MS', f: 'Mississippi'}, 1, ''],
+          [{v: 'US-MO', f: 'Missouri'}, 1, ''],
+          [{v: 'US-MT', f: 'Montana'}, 0, ''],
+          [{v: 'US-NE', f: 'Nebraska'}, 0, ''],
+          [{v: 'US-NV', f: 'Nevada'}, 1, ''],
+          [{v: 'US-NH', f: 'New Hampshire'}, 1, ''],
+          [{v: 'US-NJ', f: 'New Jersey'}, 1, ''],
+          [{v: 'US-NM', f: 'New Mexico'}, 2, ''],
+          [{v: 'US-NY', f: 'New York'}, 1, ''],
+          [{v: 'US-NC', f: 'North Carolina'}, 2, ''],
+          [{v: 'US-ND', f: 'North Dakota'}, 0, ''],
+          [{v: 'US-OH', f: 'Ohio'}, 0, ''],
+          [{v: 'US-OK', f: 'Oklahoma'}, 0, ''],
+          [{v: 'US-OR', f: 'Oregon'}, 1, ''],
+          [{v: 'US-PA', f: 'Pennsylvania'}, 1, ''],
+          [{v: 'US-RI', f: 'Rhode Island'}, 1, ''],
+          [{v: 'US-SC', f: 'South Carolina'}, 0, ''],
+          [{v: 'US-SD', f: 'South Dakota'}, 0, ''],
+          [{v: 'US-TN', f: 'Tennessee'}, 1, ''],
+          [{v: 'US-TX', f: 'Texas'}, 2, ''],
+          [{v: 'US-UT', f: 'Utah'}, 1, ''],
+          [{v: 'US-VT', f: 'Vermont'}, 1, ''],
+          [{v: 'US-VA', f: 'Virginia'}, 1, ''],
+          [{v: 'US-WA', f: 'Washington'}, 1, ''],
+          [{v: 'US-WV', f: 'West Virginia'}, 0, ''],
+          [{v: 'US-WI', f: 'Wisconsin'}, 0, ''],
+          [{v: 'US-WY', f: 'Wyoming'}, 0, '']
         ];
 
-        var totalStates = states.length - 1; // Exclude the heading
+        var totalStates = states.length;
         var visitedStates = 0;
 
+        // Count number of states visited so far
         for (var i = 0, iLength = states.length; i < iLength;i++) {
           if (states[i][1] === 1) {
             visitedStates++;
           }
         }
 
-        var data = google.visualization.arrayToDataTable(states);
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'State');
+        data.addColumn('number', 'Value');
+        data.addColumn({type: 'string', role: 'tooltip'});
+        data.addRows(states);
 
         var options = {
             backgroundColor: {
@@ -79,7 +88,7 @@
                 stroke: '#FFFFFF'
             },
            colorAxis: { 
-                colors: ['#f5f5f5', '#6CA516']
+                colors: ['#f5f5f5', '#6CA516', '#cccccc']
             },
             legend: 'none',     
             datalessRegionColor: '#f5f5f5',
@@ -93,6 +102,7 @@
 
         chart.draw(data, options);
 
+        // UI update
         document.getElementById('visited_states').innerHTML = visitedStates;
         document.getElementById('total_states').innerHTML = totalStates;
         document.getElementById('percent').innerHTML = (visitedStates / totalStates * 100) + '%';
@@ -106,17 +116,90 @@
         }
 
         #container {
-            margin: 0 auto;
-            text-align: center;
+            margin: 20px auto;
             width: 50%;
         }
+
+        #completion {
+          background: #0F5089;
+          border-radius: 100px;
+          float: left;
+          padding: 10px;
+          text-align: center;
+          height: 140px;
+          width: 140px;
+        }
+
+        #completion h1 {
+          font-size: 50px;
+          margin-bottom: 0;
+        }
+
+        #completion h2 {
+          color: #ccc;
+          font-size: 16px;
+          margin-top: 0;
+        }
+
+        #legend {
+          background: #0F5089;
+          float: right;
+          list-style-type: none;
+          margin-top: 30px;
+          padding: 10px;
+          width: 48%;
+        }
+
+        #legend-visited,
+        #legend-temporary,
+        #legend-never {
+          display: inline-block;
+          height: 20px;
+          width: 20px;
+        }
+
+        #legend-visited {
+          background: #6CA516;
+        }
+
+        #legend-temporary {
+          background: #CCCCCC;
+        }
+
+        #legend-never {
+          background: #FFFFFF;
+        }
+
+        #visited_states {
+          color: #6CA516;
+        }
+
+        #total_states {
+          color: #fff;
+        }
+
     </style>
   </head>
   <body>
 
     <div id="container">
-        <div id="completion"><h1 id="percent"></h1><span id="visited_states"></span> / <span id="total_states"></span></div>
-        <div id="regions_div" style="width: 900px; height: 500px;"></div>
+      <div style="display:inline-block;clear:both;width:100%;">
+        <div id="completion">
+          <h1 id="percent"></h1>
+          <h2>
+            <span id="visited_states"></span> / <span id="total_states"></span> States
+          </h2>
         </div>
+
+        <ul id="legend">
+          <li><strong>Legend</strong></li>
+          <li><div id="legend-visited"></div> Actual visit</li>
+          <li><div id="legend-temporary"></div> Flight layover or train passed by</li>
+          <li><div id="legend-never"></div> Never visited</li>
+        </ul>
+      </div>
+
+      <div id="regions_div" style="width: 900px; height: 500px;"></div>
+      </div>
   </body>
 </html>
