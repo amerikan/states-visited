@@ -95,7 +95,9 @@
             displayMode: 'regions', 
             resolution: 'provinces',
             region:'US',
-            keepAspectRatio: true
+            //keepAspectRatio: true,
+            height: '50%',
+            width: '50%'
         };
 
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
@@ -108,16 +110,19 @@
         document.getElementById('percent').innerHTML = (visitedStates / totalStates * 100) + '%';
       }
     </script>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,100' rel='stylesheet' type='text/css'>
     <style type="text/css">
         body {
             background: #165FA3;
             color: #fff;
-            font-family: Helvetica, sans-serif;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+            font-weight: 300;
         }
 
         #container {
             margin: 20px auto;
-            width: 50%;
+            width: 55%;
         }
 
         #completion {
@@ -131,23 +136,23 @@
         }
 
         #completion h1 {
+          font-family: 'Lato', sans-serif;
           font-size: 50px;
           margin-bottom: 0;
         }
 
         #completion h2 {
           color: #ccc;
+          font-weight: normal;
           font-size: 16px;
           margin-top: 0;
         }
 
         #legend {
-          background: #0F5089;
           float: right;
           list-style-type: none;
           margin-top: 30px;
-          padding: 10px;
-          width: 48%;
+          padding: 0;
         }
 
         #legend-visited,
@@ -170,14 +175,6 @@
           background: #FFFFFF;
         }
 
-        #visited_states {
-          color: #6CA516;
-        }
-
-        #total_states {
-          color: #fff;
-        }
-
     </style>
   </head>
   <body>
@@ -187,12 +184,11 @@
         <div id="completion">
           <h1 id="percent"></h1>
           <h2>
-            <span id="visited_states"></span> / <span id="total_states"></span> States
+            <span id="visited_states"></span>/<span id="total_states"></span> States
           </h2>
         </div>
 
         <ul id="legend">
-          <li><strong>Legend</strong></li>
           <li><div id="legend-visited"></div> Actual visit</li>
           <li><div id="legend-temporary"></div> Flight layover or train passed by</li>
           <li><div id="legend-never"></div> Never visited</li>
