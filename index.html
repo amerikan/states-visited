@@ -120,6 +120,8 @@
         #container {
             margin: 20px auto;
             width: 50%;
+
+            border: 1px solid red;
         }
 
         #completion {
@@ -172,7 +174,7 @@
           background: #FFFFFF;
         }
 
-        @media only screen and (max-device-width: 320px) {
+        @media only screen and (max-device-width: 667px) {
           #container {
             width: 95%;
           }
@@ -186,7 +188,10 @@
           #legend {
             float: none;
             margin: 0 auto;
-            width: 50%;
+          }
+
+          #legend li {
+            display: inline-block;
           }
         }
 
@@ -204,9 +209,9 @@
         </div>
 
         <ul id="legend">
-          <li><div id="legend-visited"></div> Actual visit</li>
+          <li><div id="legend-visited"></div> Visited</li>
           <li><div id="legend-temporary"></div> Flight layover</li>
-          <li><div id="legend-never"></div> Never visited</li>
+          <li><div id="legend-never"></div> Unvisited</li>
         </ul>
       </div>
 
