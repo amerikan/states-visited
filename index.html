@@ -91,13 +91,10 @@
                 colors: ['#f5f5f5', '#6CA516', '#cccccc']
             },
             legend: 'none',     
-            datalessRegionColor: '#f5f5f5',
             displayMode: 'regions', 
             resolution: 'provinces',
             region:'US',
-            //keepAspectRatio: true,
-            height: '50%',
-            width: '50%'
+            keepAspectRatio: true
         };
 
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
@@ -122,7 +119,7 @@
 
         #container {
             margin: 20px auto;
-            width: 55%;
+            width: 50%;
         }
 
         #completion {
@@ -175,6 +172,12 @@
           background: #FFFFFF;
         }
 
+        @media only screen and (max-device-width: 320px) {
+          #container {
+            width: 100%;
+          }
+        }
+
     </style>
   </head>
   <body>
@@ -190,12 +193,12 @@
 
         <ul id="legend">
           <li><div id="legend-visited"></div> Actual visit</li>
-          <li><div id="legend-temporary"></div> Flight layover or train passed by</li>
+          <li><div id="legend-temporary"></div> Flight layover</li>
           <li><div id="legend-never"></div> Never visited</li>
         </ul>
       </div>
 
-      <div id="regions_div" style="width: 900px; height: 500px;"></div>
+      <div id="regions_div"></div>
       </div>
   </body>
 </html>
