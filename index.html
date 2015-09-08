@@ -104,7 +104,7 @@
         // UI update
         document.getElementById('visited_states').innerHTML = visitedStates;
         document.getElementById('total_states').innerHTML = totalStates;
-        document.getElementById('percent').innerHTML = (visitedStates / totalStates * 100) + '%';
+        document.getElementById('percent').innerHTML = Math.round(visitedStates / totalStates * 100) + '%';
       }
     </script>
 
