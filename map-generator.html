@@ -1,0 +1,364 @@
+<html>
+  <head>
+    <title>My US State Checklist</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,100' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        body {
+            background: #165FA3;
+            color: #fff;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+            font-weight: 300;
+        }
+
+        #side-drawer {
+          background: #0F5089;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          overflow-y: scroll;
+          width: 300px;
+        }
+
+        #side-drawer h2 {
+            padding: 10px;
+            margin: 0;
+        }
+
+        button#reset-all {
+            font-size: 12px;
+            color: #333;
+            float: right;
+            margin-top: 8px;
+        }
+
+        #states-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #states-list li {
+            background: #073B68;
+            border: 1px solid #073B68;
+        }
+
+        #states-list li label.state-name {
+            background: #052C4C;
+            display: block;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        #states-list li label.option {
+            display: inline-block;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        #container {
+            margin: 20px auto;
+            width: 50%;
+        }
+
+        #completion {
+          background: #0F5089;
+          border-radius: 100px;
+          float: left;
+          padding: 10px;
+          text-align: center;
+          height: 140px;
+          width: 140px;
+        }
+
+        #completion h1 {
+          font-family: 'Lato', sans-serif;
+          font-size: 50px;
+          margin-bottom: 0;
+        }
+
+        #completion h2 {
+          color: #ccc;
+          font-weight: normal;
+          font-size: 16px;
+          margin-top: 0;
+        }
+
+        #legend {
+          float: right;
+          list-style-type: none;
+          margin-top: 30px;
+          padding: 0;
+        }
+
+        #legend-visited,
+        #legend-temporary,
+        #legend-never {
+          display: inline-block;
+          height: 20px;
+          width: 20px;
+        }
+
+        #legend-visited {
+          background: #6CA516;
+        }
+
+        #legend-temporary {
+          background: #CCCCCC;
+        }
+
+        #legend-never {
+          background: #FFFFFF;
+        }
+
+        @media only screen and (max-device-width: 667px) {
+          #container {
+            width: 95%;
+          }
+
+          #completion {
+            float: none;
+            margin: 0 auto;
+
+          }
+
+          #legend {
+            float: none;
+            text-align: center;
+          }
+
+          #legend li {
+            display: inline-block;
+            margin: 0 10px;
+          }
+        }
+
+    </style>
+    </head>
+    <body>
+
+    <div id="side-drawer">
+        <h2>Choose States <button id="reset-all">Start over</button></h2>
+        <ul id="states-list"></ul>
+    </div>
+
+    <div id="container">
+        <div style="display:inline-block;clear:both;width:100%;">
+            <div id="completion">
+                <h1 id="percent"></h1>
+                <h2>
+                    <span id="visited_states"></span>/<span id="total_states"></span> States
+                </h2>
+            </div>
+
+            <ul id="legend">
+                <li><div id="legend-visited"></div> Visited</li>
+                <li><div id="legend-temporary"></div> Flight layover</li>
+                <li><div id="legend-never"></div> Unvisited</li>
+            </ul>
+        </div>
+
+        <div id="regions_div"></div>
+        </div>
+
+        <script type="text/javascript">
+
+            google.load("visualization", "1", {packages:["geochart"]});
+            google.setOnLoadCallback(drawRegionsMap);
+
+            //0: never visited
+            //1: visited
+            //2: layover
+            var states = [
+              [{v: 'US-AK', f: 'Alaska'}, 0, ''],
+              [{v: 'US-AL', f: 'Alabama'}, 0, ''],
+              [{v: 'US-AZ', f: 'Arizona'}, 0, ''],
+              [{v: 'US-AR', f: 'Arkansas'}, 0, ''],
+              [{v: 'US-CA', f: 'California'}, 0, ''],
+              [{v: 'US-CO', f: 'Colorado'}, 0, ''],
+              [{v: 'US-CT', f: 'Connecticut'}, 0, ''],
+              [{v: 'US-DE', f: 'Delaware'}, 0, ''],
+              [{v: 'US-FL', f: 'Florida'}, 0, ''],
+              [{v: 'US-GA', f: 'Georgia'}, 0, ''],
+              [{v: 'US-HI', f: 'Hawaii'}, 0, ''],
+              [{v: 'US-ID', f: 'Idaho'}, 0, ''],
+              [{v: 'US-IL', f: 'Illinois'}, 0, ''],
+              [{v: 'US-IN', f: 'Indiana'}, 0, ''],
+              [{v: 'US-IA', f: 'Iowa'}, 0, ''],
+              [{v: 'US-KS', f: 'Kansas'}, 0, ''],
+              [{v: 'US-KY', f: 'Kentucky'}, 0, ''],
+              [{v: 'US-LA', f: 'Louisiana'}, 0, ''],
+              [{v: 'US-ME', f: 'Maine'}, 0, ''],
+              [{v: 'US-MD', f: 'Maryland'}, 0, ''],
+              [{v: 'US-MA', f: 'Massachusetts'}, 0, ''],
+              [{v: 'US-MI', f: 'Michigan'}, 0, ''],
+              [{v: 'US-MN', f: 'Minnesota'}, 0, ''],
+              [{v: 'US-MS', f: 'Mississippi'}, 0, ''],
+              [{v: 'US-MO', f: 'Missouri'}, 0, ''],
+              [{v: 'US-MT', f: 'Montana'}, 0, ''],
+              [{v: 'US-NE', f: 'Nebraska'}, 0, ''],
+              [{v: 'US-NV', f: 'Nevada'}, 0, ''],
+              [{v: 'US-NH', f: 'New Hampshire'}, 0, ''],
+              [{v: 'US-NJ', f: 'New Jersey'}, 0, ''],
+              [{v: 'US-NM', f: 'New Mexico'}, 0, ''],
+              [{v: 'US-NY', f: 'New York'}, 0, ''],
+              [{v: 'US-NC', f: 'North Carolina'}, 0, ''],
+              [{v: 'US-ND', f: 'North Dakota'}, 0, ''],
+              [{v: 'US-OH', f: 'Ohio'}, 0, ''],
+              [{v: 'US-OK', f: 'Oklahoma'}, 0, ''],
+              [{v: 'US-OR', f: 'Oregon'}, 0, ''],
+              [{v: 'US-PA', f: 'Pennsylvania'}, 0, ''],
+              [{v: 'US-RI', f: 'Rhode Island'}, 0, ''],
+              [{v: 'US-SC', f: 'South Carolina'}, 0, ''],
+              [{v: 'US-SD', f: 'South Dakota'}, 0, ''],
+              [{v: 'US-TN', f: 'Tennessee'}, 0, ''],
+              [{v: 'US-TX', f: 'Texas'}, 0, ''],
+              [{v: 'US-UT', f: 'Utah'}, 0, ''],
+              [{v: 'US-VT', f: 'Vermont'}, 0, ''],
+              [{v: 'US-VA', f: 'Virginia'}, 0, ''],
+              [{v: 'US-WA', f: 'Washington'}, 0, ''],
+              [{v: 'US-WV', f: 'West Virginia'}, 0, ''],
+              [{v: 'US-WI', f: 'Wisconsin'}, 0, ''],
+              [{v: 'US-WY', f: 'Wyoming'}, 0, '']
+            ];
+
+            var colors = {unvisited: '#f5f5f5', visited: '#6CA516', layover: '#cccccc'};
+
+            var chartOptions = {
+                    backgroundColor: {
+                        fill: 'transparent',
+                        stroke: '#FFFFFF'
+                    },
+                    colorAxis: { 
+                        colors: [colors.unvisited, colors.visited, colors.layover]
+                    },
+                    legend: 'none',     
+                    displayMode: 'regions', 
+                    resolution: 'provinces',
+                    region:'US',
+                    keepAspectRatio: true
+            };
+
+            var totalStates = states.length;
+
+            buildStateMenu();
+
+            function buildStateMenu() {
+
+                // Clear any remnants
+                $('#states-list').html('');
+
+                // Build the state list menu
+                for (var i = 0, iLength = totalStates; i < iLength;i++) {
+
+                    var stateName = states[i][0]['f'];
+                    var stateCode = states[i][0]['v'];
+
+                    $('#states-list').append('<li>' +
+                        '<label class="state-name">' + stateName + '</label>' +
+                        '<label class="option"><input type="radio" name="' + stateCode + '" value="0" checked="checked" /> Unvisited</label>' +
+                        '<label class="option"><input type="radio" name="' + stateCode + '" value="1" /> Visited</label>' +
+                        '<label class="option"><input type="radio" name="' + stateCode + '" value="2" /> Layover</label>' +
+                    '</li>');
+                }
+            }
+
+            function resetStates() {
+                for (var i = 0, iLength = totalStates; i < iLength;i++) {
+                    states[i][1] = 0;
+                }
+            }
+
+            function drawRegionsMap() {
+                
+                var visitedStates = 0;
+
+                // Count number of states visited so far
+                for (var i = 0, iLength = states.length; i < iLength;i++) {
+                    if (states[i][1] === 1) {
+                        visitedStates++;
+                    }
+                }
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'State');
+                data.addColumn('number', 'Value');
+                data.addColumn({type: 'string', role: 'tooltip'});
+                data.addRows(states);
+
+                var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+                chart.draw(data, chartOptions);
+
+                // UI update
+                $('#visited_states').html(visitedStates);
+                $('#total_states').html(totalStates);
+                $('#percent').html(Math.round(visitedStates / totalStates * 100) + '%');
+            }
+
+            function hasVisitedSelected() {
+                for (var i = 0, iLength = totalStates; i < iLength;i++) {
+                    
+                    if (states[i][1] === 1) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function hasLayoverSelected() {
+                for (var i = 0, iLength = totalStates; i < iLength;i++) {
+                    
+                    if (states[i][1] === 2) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            var visitedSelected = false;
+            var layoverSelected = false;
+
+            // Select states
+            $('body').on('click', '#states-list li input', function () {
+                
+                var listIndex = $(this).closest('li').index();
+                var value = parseInt($(this).val());
+
+                states[listIndex][1] = value;
+
+                visitedSelected = hasVisitedSelected();
+                layoverSelected = hasLayoverSelected();
+
+                // Assign correct colors (hacky way)
+                if (visitedSelected && layoverSelected) {
+                    chartOptions.colorAxis.colors = [colors.unvisited, colors.visited, colors.layover]
+                } else if (visitedSelected) {
+                    chartOptions.colorAxis.colors = [colors.unvisited, colors.visited];
+                } else if (layoverSelected) {
+                    chartOptions.colorAxis.colors = [colors.unvisited, colors.layover];
+                }
+
+                drawRegionsMap();
+            });
+
+            // Reset everything
+            $('#reset-all').on('click', function () {
+
+                layoverSelected = false;
+                visitedSelected = false;
+
+                buildStateMenu();
+                resetStates();
+                drawRegionsMap();
+            });
+        </script>
+    </body>
+</html>
