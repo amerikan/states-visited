@@ -68,11 +68,14 @@
 
         var totalStates = states.length;
         var visitedStates = 0;
+        var layoverStates = 0;
 
         // Count number of states visited so far
         for (var i = 0, iLength = states.length; i < iLength;i++) {
           if (states[i][1] === 1) {
             visitedStates++;
+          } else if (states[i][1] === 2) {
+            layoverStates++;
           }
         }
 
@@ -96,6 +99,10 @@
             region:'US',
             keepAspectRatio: true
         };
+
+        if (layoverStates === 0) {
+          options.colorAxis.colors[2] = '#6CA516';
+        }
 
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
